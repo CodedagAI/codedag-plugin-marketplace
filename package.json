@@ -1,0 +1,16 @@
+{
+  "name": "codedag-plugins",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "generate": "node scripts/generate-marketplaces.mjs",
+    "check": "node scripts/generate-marketplaces.mjs --check",
+    "test": "node --test scripts/*.test.mjs"
+  },
+  "devDependencies": {
+    "yaml": "2.8.4"
+  }
+}

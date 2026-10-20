@@ -1,0 +1,11 @@
+# Written by the CodeDAG plugin export. Do not edit by hand.
+plugins:
+  - name: codedag
+    path: ./plugins/codedag
+    claude:
+      description: Plugin that teaches Claude Code how to use the CodeDAG CLI.
+    codex:
+      category: Developer Tools
+      policy:
+        installation: AVAILABLE
+        authentication: ON_INSTALL

@@ -22,7 +22,7 @@ description: Use when you need to use the CodeDAG CLI on this machine to initial
 
 <!-- codedag-compat:begin -->
 - Minimum CodeDAG CLI version: `0.0.7-local.49`
-- Verified CodeDAG CLI version: `0.0.7-local.49`
+- Verified CodeDAG CLI version: `0.0.7-local.50`
 <!-- codedag-compat:end -->
 
 - **Before your first use in a session:** Run `cdg --version` and compare the result with the two versions above.

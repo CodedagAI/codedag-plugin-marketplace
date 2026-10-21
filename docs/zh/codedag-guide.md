@@ -22,7 +22,7 @@ description: 当需要在本机使用 CodeDAG CLI 初始化项目、编写工作
 
 <!-- codedag-compat:begin -->
 - 最低 CodeDAG CLI 版本：`0.0.7-local.49`
-- 已核对的 CodeDAG CLI 版本：`0.0.7-local.49`
+- 已核对的 CodeDAG CLI 版本：`0.0.7-local.50`
 <!-- codedag-compat:end -->
 
 - **会话内第一次使用前：** 运行 `cdg --version`，与上面的两个版本比较。

@@ -1,0 +1,14 @@
+{
+  "name": "codedag",
+  "description": "CodeDAG plugin marketplace for Claude Code and Codex.",
+  "owner": {
+    "name": "CodeDAG"
+  },
+  "plugins": [
+    {
+      "name": "codedag",
+      "source": "./plugins/codedag",
+      "description": "Plugin that teaches Claude Code how to use the CodeDAG CLI."
+    }
+  ]
+}

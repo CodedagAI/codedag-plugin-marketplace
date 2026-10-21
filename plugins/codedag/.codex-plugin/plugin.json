@@ -1,0 +1,22 @@
+{
+  "name": "codedag",
+  "version": "0.0.7-local.49",
+  "description": "Guide Codex to use the CodeDAG CLI workflow in local repositories.",
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "CodeDAG",
+    "shortDescription": "Teach Codex how to use the CodeDAG CLI.",
+    "longDescription": "Adds CodeDAG skills so Codex can initialize, validate, submit, inspect, and review CodeDAG workflows.",
+    "developerName": "CodeDAG",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Use CodeDAG to validate and submit the workflow in this repository.",
+      "Use CodeDAG to inspect the workflow status and review the blocked task."
+    ],
+    "brandColor": "#9985FF"
+  }
+}

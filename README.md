@@ -19,14 +19,14 @@ To add the marketplace with the host's own commands instead:
 - Claude Code:
 
   ```sh
-  claude plugin marketplace add CodedagAI/codedag-plugins
+  claude plugin marketplace add CodedagAI/codedag-plugin-marketplace
   claude plugin install codedag@codedag
   ```
 
 - Codex:
 
   ```sh
-  codex plugin marketplace add CodedagAI/codedag-plugins
+  codex plugin marketplace add CodedagAI/codedag-plugin-marketplace
   codex plugin add codedag@codedag
   ```
 

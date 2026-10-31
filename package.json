@@ -1,5 +1,5 @@
 {
-  "name": "codedag-plugins",
+  "name": "codedag-plugin-marketplace",
   "private": true,
   "type": "module",
   "engines": {

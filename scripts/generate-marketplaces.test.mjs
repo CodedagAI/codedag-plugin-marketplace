@@ -58,7 +58,7 @@ afterEach(() => {
 });
 
 function makeTempDir() {
-  const dir = mkdtempSync(path.join(os.tmpdir(), 'codedag-plugins-generator-'));
+  const dir = mkdtempSync(path.join(os.tmpdir(), 'codedag-plugin-marketplace-generator-'));
   tempDirs.push(dir);
   return dir;
 }

@@ -21,8 +21,8 @@ description: Use when you need to use the CodeDAG CLI on this machine to initial
 ## Version requirements
 
 <!-- codedag-compat:begin -->
-- Minimum CodeDAG CLI version: `0.0.7-local.49`
-- Verified CodeDAG CLI version: `0.0.7-local.50`
+- Minimum CodeDAG CLI version: `0.0.7-local.51`
+- Verified CodeDAG CLI version: `0.0.7-local.51`
 <!-- codedag-compat:end -->
 
 - **Before your first use in a session:** Run `cdg --version` and compare the result with the two versions above.
@@ -319,7 +319,7 @@ Follow these rules when writing prompts:
 
 ### Install the CodeDAG plugin
 
-- **Source:** The CodeDAG plugin `codedag@codedag`, which contains this skill, comes from the plugin marketplace `CodedagAI/codedag-plugins` on GitHub; the marketplace name is `codedag`.
+- **Source:** The CodeDAG plugin `codedag@codedag`, which contains this skill, comes from the plugin marketplace `CodedagAI/codedag-plugin-marketplace` on GitHub; the marketplace name is `codedag`.
 - **Default installation:** By default, `cdg init` registers this marketplace with the Claude Code and Codex installed on this machine and installs the plugin; non-interactive initialization installs it at the user scope. With `--no-install-guide-plugins`, it skips installing, repairing, and updating the plugin.
 - **When it takes effect:** A newly installed plugin takes effect only in new sessions; to use it in the current session, exit and resume (`claude --resume` or `codex resume`).
 - **Install later or change the scope:** If initialization skipped the plugin, install it later with `cdg plugin install --all -s user|project|local`; to change the scope, run `cdg plugin uninstall --all` first, then install again. Codex supports only the user scope: with `project` or `local`, only Claude Code is installed at that scope, and Codex is skipped with a warning.

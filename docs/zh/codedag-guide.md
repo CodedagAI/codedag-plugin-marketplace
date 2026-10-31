@@ -21,8 +21,8 @@ description: 当需要在本机使用 CodeDAG CLI 初始化项目、编写工作
 ## 版本要求
 
 <!-- codedag-compat:begin -->
-- 最低 CodeDAG CLI 版本：`0.0.7-local.49`
-- 已核对的 CodeDAG CLI 版本：`0.0.7-local.50`
+- 最低 CodeDAG CLI 版本：`0.0.7-local.51`
+- 已核对的 CodeDAG CLI 版本：`0.0.7-local.51`
 <!-- codedag-compat:end -->
 
 - **会话内第一次使用前：** 运行 `cdg --version`，与上面的两个版本比较。
@@ -319,7 +319,7 @@ tasks:
 
 ### CodeDAG 插件安装
 
-- **来源：** CodeDAG 插件 `codedag@codedag`（含本技能）来自 GitHub 上的插件 marketplace `CodedagAI/codedag-plugins`，marketplace 名为 `codedag`。
+- **来源：** CodeDAG 插件 `codedag@codedag`（含本技能）来自 GitHub 上的插件 marketplace `CodedagAI/codedag-plugin-marketplace`，marketplace 名为 `codedag`。
 - **默认安装：** `cdg init` 默认为本机已安装的 Claude Code、Codex 注册这个 marketplace 并安装插件，非交互初始化装到 user 范围；加 `--no-install-guide-plugins` 时跳过插件的安装、修复与更新。
 - **生效时机：** 新装的插件只在新会话中生效；要在当前会话使用，先退出再恢复（`claude --resume` 或 `codex resume`）。
 - **补装与改范围：** 初始化时跳过了插件安装的，用 `cdg plugin install --all -s user|project|local` 补装；改范围时先 `cdg plugin uninstall --all` 再装。Codex 只支持 user 范围：选 `project` 或 `local` 时，只有 Claude Code 装到该范围，Codex 被跳过并给出警告。

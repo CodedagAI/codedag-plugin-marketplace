@@ -1,6 +1,6 @@
 {
   "name": "codedag",
-  "version": "0.0.7-local.51",
+  "version": "0.0.7-local.52",
   "description": "Plugin that teaches Claude Code how to use the CodeDAG CLI from inside a Claude session.",
   "author": {
     "name": "CodeDAG"

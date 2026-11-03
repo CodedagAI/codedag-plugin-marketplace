@@ -21,8 +21,8 @@ description: 当需要在本机使用 CodeDAG CLI 初始化项目、编写工作
 ## 版本要求
 
 <!-- codedag-compat:begin -->
-- 最低 CodeDAG CLI 版本：`0.0.7-local.51`
-- 已核对的 CodeDAG CLI 版本：`0.0.7-local.51`
+- 最低 CodeDAG CLI 版本：`0.0.7-local.52`
+- 已核对的 CodeDAG CLI 版本：`0.0.7-local.52`
 <!-- codedag-compat:end -->
 
 - **会话内第一次使用前：** 运行 `cdg --version`，与上面的两个版本比较。
@@ -320,12 +320,12 @@ tasks:
 ### CodeDAG 插件安装
 
 - **来源：** CodeDAG 插件 `codedag@codedag`（含本技能）来自 GitHub 上的插件 marketplace `CodedagAI/codedag-plugin-marketplace`，marketplace 名为 `codedag`。
-- **默认安装：** `cdg init` 默认为本机已安装的 Claude Code、Codex 注册这个 marketplace 并安装插件，非交互初始化装到 user 范围；加 `--no-install-guide-plugins` 时跳过插件的安装、修复与更新。
+- **默认安装：** `cdg init` 默认为本机已安装的 Claude Code、Codex 注册这个 marketplace 并安装插件，非交互初始化装到 user 范围；加 `--no-install-guide-plugins` 时跳过插件的安装与修复。
 - **生效时机：** 新装的插件只在新会话中生效；要在当前会话使用，先退出再恢复（`claude --resume` 或 `codex resume`）。
-- **补装与改范围：** 初始化时跳过了插件安装的，用 `cdg plugin install --all -s user|project|local` 补装；改范围时先 `cdg plugin uninstall --all` 再装。Codex 只支持 user 范围：选 `project` 或 `local` 时，只有 Claude Code 装到该范围，Codex 被跳过并给出警告。
+- **补装与改范围：** 初始化时跳过了插件安装的，用 `cdg plugin install --all -s user|project|local` 补装；改范围时先 `cdg plugin uninstall --all` 再装。Claude Code 与 Codex 都支持 user、project、local 三个范围；`project` 装好后，提交改动的 `.claude/settings.json` 或 `.codex/config.toml`。Codex 的 `local` 让同一仓库所有 worktree 中未跟踪的 `.codex/config.toml` 都被 Git 忽略，在其他 worktree 提交这个文件要用 `git add -f`。
 - **查看：** `cdg plugin status --all` 显示插件在 Claude Code、Codex 中的安装状态、范围、启用状态、插件版本、插件要求的最低 CLI 版本与下一步建议。`cdg init` 或 `cdg plugin status` 提示 CLI 低于插件要求的最低版本时，请用户升级 CLI。
 - **更新：** `cdg plugin update --all` 刷新 marketplace 并更新插件；也可以用宿主自己的入口：Claude Code 为 `claude plugin update codedag@codedag`，Codex 为 `codex plugin marketplace upgrade codedag`。
-- **卸载：** `cdg plugin uninstall --all` 只卸载 CodeDAG 插件，保留 `codedag` marketplace 及其中的其他插件。
+- **卸载：** `cdg plugin uninstall --all` 只卸载 CodeDAG 插件，保留 `codedag` marketplace 及其中的其他插件。Codex 卸载 user 范围时只把插件改为停用，插件文件保留给本机其他项目的 project、local 范围使用；要彻底移除，运行 `codex plugin remove codedag@codedag`。
 
 ### 校验与提交
 
@@ -365,9 +365,10 @@ tasks:
 你是工作流的第一责任人，从提交到执行完成全程负总责：按本节节奏主动巡检推进，及时识别停滞、空跑、审批挂起与额度限制，不被动等待；约定授权范围内的审批与异常直接处置（见「运行中弹出审批时」剧本），高风险审批、破坏性操作与约定之外的决策升级给用户——主人公意识不等于对一切审批自行同意，审批由任务内的 Agent 发起、你「隔着两层」也不构成袖手理由。
 
 - 启动后：高频看 `status` / `dag status` / `dag logs -f`。
-- 稳定后：明显切换到低频轮询，建议 5–10 分钟看一次即可；不要每几十秒就去查一次进展，那既不会让任务跑得更快，也容易过度打扰用户和占用上下文。
+- 稳定后：明显切换到低频轮询，建议 5–10 分钟巡检一次；不要每几十秒就去查一次进展，那既不会让任务跑得更快，也容易过度打扰用户和占用上下文。
+- 每次巡检都核对实际进展，不只看状态：对每个运行中的任务看 `task logs` 的最新输出与它工作区的改动（如 `git diff --stat`），确认输出、工具调用或改动在增加；状态是 `working`，这些却长时间没有变化时，按下一条判断是否停滞。巡检后给用户留一句巡检记录，说明各任务实际推进到哪里。
 - 等待节点任务时要有耐心，特别是任务内部又派发了 subagent 的场景；短时间没有新输出不代表卡死，至少连续 10 分钟没有响应后，才考虑进入干预路径。
-- 异常时再钻 task；出错时先 `task status` / `task logs`，必要时 `task view`。
+- 出错时先 `task status` / `task logs`，必要时 `task view`。
 - 运行中需要调整任务方向时，优先用 `cdg task view <taskId> -w <workflow>` 进入会话后发 prompt；交流后退出，回到状态与日志确认进展。没有 view 的执行条件时，按“进入任务会话”一节的 request-changes 兜底方式处理。
 - `review`：给结果定案；`revise` / `request-changes` / `rework`：继续改；`recover`：恢复被打断或异常的执行。
 

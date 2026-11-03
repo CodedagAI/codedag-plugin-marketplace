@@ -1,6 +1,6 @@
 {
   "name": "codedag",
-  "version": "0.0.7-local.51",
+  "version": "0.0.7-local.52",
   "description": "Guide Codex to use the CodeDAG CLI workflow in local repositories.",
   "skills": "./skills/",
   "interface": {

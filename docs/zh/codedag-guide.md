@@ -21,8 +21,8 @@ description: 当需要在本机使用 CodeDAG CLI 初始化项目、编写工作
 ## 版本要求
 
 <!-- codedag-compat:begin -->
-- 最低 CodeDAG CLI 版本：`0.0.7-local.52`
-- 已核对的 CodeDAG CLI 版本：`0.0.7-local.52`
+- 最低 CodeDAG CLI 版本：`0.0.7-local.53`
+- 已核对的 CodeDAG CLI 版本：`0.0.7-local.53`
 <!-- codedag-compat:end -->
 
 - **会话内第一次使用前：** 运行 `cdg --version`，与上面的两个版本比较。
@@ -391,7 +391,7 @@ tasks:
 sleep 醒来后收口，常规做法是原地恢复：
 
 - 先检查限额前后结束的任务，确认其成果完整。
-- 整个 workflow 之前被 `dag kill` 时，用 `cdg dag recover <workflow>` 恢复；只停了限额 Agent 的任务时，用 `cdg task recover <taskId...> -w <workflow>` 恢复这些任务。`on-hold` 与 `killed` 的任务在原会话中接着做，`paused` 的任务重新等待调度；恢复不再消耗 CodeDAG 额度。
+- 整个 workflow 之前被 `dag kill` 时，用 `cdg dag recover <workflow>` 恢复；只停了限额 Agent 的任务时，用 `cdg task recover <taskId...> -w <workflow>` 恢复这些任务。`on-hold` 与 `killed` 的任务在原会话中接着做，`paused` 的任务重新等待调度，暂停时已做完当前一轮的任务直接按完成处理；恢复不再消耗 CodeDAG 额度。
 - 恢复后回到监督节奏，确认任务重新推进。任务再次停在 `on-hold`（`agent-api-error`）时，说明额度尚未重置，继续等待后再 `recover`。
 
 只有某个任务成果不完整却已被接受、无法原地恢复时，才收下已完成的成果，用新 workflow 接力；新 workflow 按任务数另行消耗 CodeDAG 额度。隔离分支模式下的步骤：
@@ -422,7 +422,7 @@ sleep 醒来后收口，常规做法是原地恢复：
 
 - `cdg task view <taskId> -w <workflow>`
 - 必要时可用 `--session-id <id>` 恢复会话。
-- 任务已中断（`killed` / `paused` / `on-hold`，或执行进程已退出）且会话未运行时，进入会话要先恢复任务，恢复后任务继续执行：要恢复时加 `--recover`（或在确认提示中选 Yes）；只想了解任务做过什么时用 `cdg task logs`。
+- 任务停下（`killed` / `paused` / `on-hold`，或执行进程已退出）且会话未运行时，进入只是把原会话重新打开，不向 Agent 发送任何内容：在会话里让 Agent 继续，任务随之继续执行；什么都不做就退出，任务保持原状。因读不到会话状态等原因不能打开时，命令说明原因与处理办法。
 
 需要真实可交互终端；监督 Agent 可用 tmux 承载，不直接在没有交互终端的 bash 工具中运行。
 
@@ -579,7 +579,7 @@ sleep 醒来后收口，常规做法是原地恢复：
 
 适用场景：
 
-- 任务停在 `on-hold`、`killed`、`paused` 或 `draining`。
+- 任务停在 `on-hold`、`killed`、`paused` 或 `draining`。暂停时已做完当前一轮的 `paused` 任务，`recover` 与 `unpause` 一样直接按完成处理，不再让 Agent 多做一轮。
 - `recover` 会按停住原因尝试恢复执行；如果你怀疑现场已经脏了，先看状态和日志，再决定是否 recover。
 - 机器重启或执行进程被意外终止后，任务仍记为 `working`，但已没有进程推进，status 类命令也不会重新拉起调度。`cdg status` 在该 workflow 行下、`cdg dag status` 在 workflow 信息区给出 `Diagnostic:`，任务行标为 `[working (stale owner)]`；按其中的 `cdg dag recover <workflow>` 恢复。
 

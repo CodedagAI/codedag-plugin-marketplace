@@ -21,8 +21,8 @@ description: Use when you need to use the CodeDAG CLI on this machine to initial
 ## Version requirements
 
 <!-- codedag-compat:begin -->
-- Minimum CodeDAG CLI version: `0.0.7-local.52`
-- Verified CodeDAG CLI version: `0.0.7-local.52`
+- Minimum CodeDAG CLI version: `0.0.7-local.53`
+- Verified CodeDAG CLI version: `0.0.7-local.53`
 <!-- codedag-compat:end -->
 
 - **Before your first use in a session:** Run `cdg --version` and compare the result with the two versions above.
@@ -391,7 +391,7 @@ Ways to limit the damage:
 When the sleep ends, finish up; the usual approach is to recover in place:
 
 - First check the tasks that ended around the time of the limit, and confirm their results are complete.
-- If the whole workflow was stopped earlier with `dag kill`, recover it with `cdg dag recover <workflow>`; if only the tasks of the limited agent were stopped, recover those tasks with `cdg task recover <taskId...> -w <workflow>`. `on-hold` and `killed` tasks pick up in their original sessions, and `paused` tasks wait to be scheduled again; recovering does not consume CodeDAG credits again.
+- If the whole workflow was stopped earlier with `dag kill`, recover it with `cdg dag recover <workflow>`; if only the tasks of the limited agent were stopped, recover those tasks with `cdg task recover <taskId...> -w <workflow>`. `on-hold` and `killed` tasks pick up in their original sessions, and `paused` tasks wait to be scheduled again, except that a task that had already finished its round when it was paused is completed directly; recovering does not consume CodeDAG credits again.
 - After recovering, return to the monitoring schedule and confirm that the tasks are running again. If a task goes `on-hold` (`agent-api-error`) again, the limit has not reset yet; keep waiting, then `recover`.
 
 Only when a task's result is incomplete but has already been accepted, so it cannot be recovered in place, collect the completed results and continue in a new workflow; the new workflow consumes CodeDAG credits for its own tasks. The steps in isolated-branches mode:
@@ -422,7 +422,7 @@ How to choose:
 
 - `cdg task view <taskId> -w <workflow>`
 - If needed, resume a session with `--session-id <id>`.
-- When the task has been interrupted (`killed` / `paused` / `on-hold`, or its worker process has exited) and its session is not running, entering the session requires recovering the task first, and the task continues running after it is recovered. To recover, add `--recover` (or choose Yes at the confirmation prompt); if you only want to know what the task did, use `cdg task logs`.
+- When the task has stopped (`killed` / `paused` / `on-hold`, or its worker process has exited) and its session is not running, entering only reopens the original session and sends nothing to the agent: ask the agent to continue in the session and the task resumes with it; leave without doing anything and the task stays as it was. When the session cannot be reopened, for example because its state cannot be read, the command explains why and what to do.
 
 This needs a real interactive terminal; a supervising agent can host it in tmux instead of running it directly in a shell tool that has no interactive terminal.
 
@@ -579,7 +579,7 @@ When to use:
 
 When to use:
 
-- A task is stopped in `on-hold`, `killed`, `paused`, or `draining`.
+- A task is stopped in `on-hold`, `killed`, `paused`, or `draining`. For a `paused` task that had already finished its round when it was paused, `recover` completes it directly, as `unpause` does, instead of having the agent run another round.
 - `recover` tries to resume execution according to why it stopped; if you suspect the working state is already dirty, check the status and logs first, then decide whether to recover.
 - After a machine restart or an unexpected termination of the worker process, a task is still recorded as `working`, but no process is driving it any more, and status commands do not restart scheduling either. `cdg status` shows `Diagnostic:` under that workflow's row and `cdg dag status` shows it in the workflow information area, and the task row is marked `[working (stale owner)]`; recover with the `cdg dag recover <workflow>` given there.
 

@@ -1,6 +1,6 @@
 {
   "cli": {
-    "minVersion": "0.0.7-local.53",
-    "verifiedVersion": "0.0.7-local.53"
+    "minVersion": "0.1.0",
+    "verifiedVersion": "0.1.0"
   }
 }

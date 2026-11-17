@@ -8,7 +8,7 @@
     {
       "name": "codedag",
       "source": "./plugins/codedag",
-      "description": "Plugin that teaches Claude Code how to use the CodeDAG CLI."
+      "description": "Teaches your agent the essentials of using CodeDAG, such as writing and submitting workflows, supervising their runs, and reviewing the results."
     }
   ]
 }
